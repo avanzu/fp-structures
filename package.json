@@ -1,0 +1,23 @@
+{
+  "name": "fp-types",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "test": "NODE_ENV=development npm run eslint && NODE_ENV=test npm run jest",
+    "eslint": "eslint lib/. --config .eslintrc.json",
+    "jest": "jest --config jest.config.js"
+  },
+  "keywords": [],
+  "author": "Marc Bach<mail@avanzu.de>",
+  "license": "MIT",
+  "devDependencies": {
+    "claire": "^0.4.1",
+    "eslint": "^6.1.0",
+    "jest": "^24.9.0",
+    "laws": "^0.2.1"
+  }
+}
