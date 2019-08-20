@@ -1,4 +1,8 @@
 var Task = require('../lib/task')
+const fail = message => () => { throw new Error(message) }
+const expectValue = expected => actual => expect(actual).toEqual(expected)
+const expectFinalValue = (expected, done) => actual => 
+    (expectValue(expected)(actual), done())
 
 test('Task#ap(aTask) starts both tasks concurrently', done => {
     var t1_status = 'pending'
@@ -46,4 +50,17 @@ test('Task#ap(aTask) should fail once if one fails', done => {
     )
 
     setTimeout(() => (expect(failures).toEqual(1), done()), 100)
+})
+
+
+test('Task#cata shold resolve both sides', done => {
+    const Rejected = () => false
+    const Resolved = () => true
+
+    const goodTask = Task.of('something').cata({ Rejected, Resolved })
+    const badTask  = Task.rejected('nope').cata({ Rejected, Resolved })
+
+    goodTask.fork(fail('Should not be rejected'), expectValue(true))
+    badTask.fork(fail('Should not be rejected'), expectFinalValue(false, done) )
+
 })
